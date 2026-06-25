@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin Dashboard — STACKLY</title>
+<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="dash-sidebar-overlay" id="dashOverlay" onclick="closeDashSidebar()"></div>
+<div class="dashboard-layout">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="nav-logo">
+      <div class="sb-logo-mark"><img src="./assets/stackly logo.webp" alt=""></div>
+      <div class="sb-logo-text">STACK<span>LY</span></div>
+    </a>
+
+    <div class="sb-user-panel">
+      <div class="sb-user-avatar" id="sidebarAvatar">AD</div>
+      <div class="sb-user-info">
+        <div class="sb-user-name" id="sidebarName">Admin User</div>
+        <div class="sb-user-email" id="sidebarEmail">admin@stackly.in</div>
+      </div>
+      <span class="sb-role-badge sb-role-admin">ADMIN</span>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-nav-label">Overview</div>
+      <div class="sb-nav-item active"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-building"></i><span>Properties</span><span class="sb-badge">24</span></div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-users"></i><span>Tenants</span></div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-file-signature"></i><span>Leases</span></div>
+
+      <div class="sb-nav-label">Operations</div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-indian-rupee-sign"></i><span>Rent &amp; Payments</span></div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-wrench"></i><span>Maintenance</span><span class="sb-badge">7</span></div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-message-dots"></i><span>Enquiries</span><span class="sb-badge">9+</span></div>
+
+      <div class="sb-nav-label">Insights</div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-file-lines"></i><span>Reports</span></div>
+
+      <div class="sb-nav-label">System</div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-user-group"></i><span>Team</span></div>
+      <div class="sb-nav-item" onclick="navTo404()"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
+    </nav>
+
+    <div class="sb-footer">
+      <a href="index.html" class="sb-footer-btn"><i class="fa-solid fa-house"></i><span>Back to Website</span></a>
+      <button class="sb-footer-btn sb-signout" onclick="signOut()"><i class="fa-solid fa-right-from-bracket"></i><span>Sign Out</span></button>
+    </div>
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <main class="dashboard-main">
+
+    <!-- TOPBAR -->
+<div class="dashboard-topbar">
+  <div class="topbar-left">
+    <button class="dash-hamburger" id="dashHam" onclick="toggleDashSidebar()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="topbar-actions">
+    <div class="topbar-status-pill"><i class="fa-solid fa-circle" style="font-size:.45rem"></i> Portal Open</div>
+    <div class="topbar-icon-btn" onclick="navTo404()"><i class="fa-regular fa-bell"></i><div class="badge-dot"></div></div>
+    <div class="topbar-user-avatar" id="topbarAvatar">AD</div>
+  </div>
+</div>
+
+    <!-- CONTENT -->
+    <div class="dashboard-content">
+
+  <!-- PAGE GREETING
+  <div class="page-greet">
+    <h2 id="dashGreeting">Welcome back, <span>Admin</span></h2>
+    <p>Here's today's pulse across all STACKLY operations.</p>
+  </div> -->
+
+  <!-- KPI CARDS -->
+
+      <!-- KPI CARDS -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon" style="background:rgba(192,57,43,.14);color:var(--accent3)"><i class="fa-solid fa-building"></i></div>
+            <span class="kpi-chip up"><i class="fa-solid fa-arrow-up"></i> 8%</span>
+          </div>
+          <div class="kpi-value">24</div>
+          <div class="kpi-label">Total Properties</div>
+          <svg class="kpi-spark" viewBox="0 0 120 34" preserveAspectRatio="none"><polyline fill="none" stroke="#ff6b6b" stroke-width="2" points="0,26 20,22 40,24 60,16 80,18 100,9 120,11"/></svg>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon" style="background:rgba(0,184,148,.14);color:#34d39a"><i class="fa-solid fa-users"></i></div>
+            <span class="kpi-chip up"><i class="fa-solid fa-arrow-up"></i> 4.2%</span>
+          </div>
+          <div class="kpi-value">2,840</div>
+          <div class="kpi-label">Active Tenants</div>
+          <svg class="kpi-spark" viewBox="0 0 120 34" preserveAspectRatio="none"><polyline fill="none" stroke="#34d39a" stroke-width="2" points="0,24 20,20 40,21 60,14 80,16 100,10 120,7"/></svg>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon" style="background:rgba(245,158,11,.14);color:var(--amber)"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+            <span class="kpi-chip up"><i class="fa-solid fa-arrow-up"></i> 12%</span>
+          </div>
+          <div class="kpi-value">₹42Cr</div>
+          <div class="kpi-label">Monthly Revenue</div>
+          <svg class="kpi-spark" viewBox="0 0 120 34" preserveAspectRatio="none"><polyline fill="none" stroke="#f59e0b" stroke-width="2" points="0,28 20,24 40,18 60,20 80,12 100,14 120,6"/></svg>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon" style="background:rgba(108,92,231,.14);color:#a78bfa"><i class="fa-solid fa-wrench"></i></div>
+            <span class="kpi-chip down"><i class="fa-solid fa-arrow-down"></i> 3</span>
+          </div>
+          <div class="kpi-value">7</div>
+          <div class="kpi-label">Open Maintenance Tickets</div>
+          <svg class="kpi-spark" viewBox="0 0 120 34" preserveAspectRatio="none"><polyline fill="none" stroke="#a78bfa" stroke-width="2" points="0,10 20,14 40,12 60,18 80,16 100,22 120,24"/></svg>
+        </div>
+      </div>
+
+      <!-- CHART ROW -->
+      <div class="chart-grid">
+        <!-- line chart -->
+        <div class="panel">
+          <div class="panel-head">
+            <div><h4>Portfolio Performance</h4><p>Enquiries vs confirmed bookings · last 6 months</p></div>
+            <div class="chart-toggle"><button class="active">6M</button><button onclick="navTo404()">1Y</button><button onclick="navTo404()">All</button></div>
+          </div>
+          <svg viewBox="0 0 640 240" preserveAspectRatio="xMidYMid meet" style="width:100%;display:block">
+            <defs>
+              <linearGradient id="fillEnq" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e74c3c" stop-opacity=".28"/><stop offset="100%" stop-color="#e74c3c" stop-opacity="0"/></linearGradient>
+            </defs>
+            <!-- gridlines -->
+            <g stroke="rgba(255,255,255,.06)" stroke-width="1">
+              <line x1="40" y1="30" x2="620" y2="30"/><line x1="40" y1="80" x2="620" y2="80"/>
+              <line x1="40" y1="130" x2="620" y2="130"/><line x1="40" y1="180" x2="620" y2="180"/>
+            </g>
+            <!-- y labels -->
+            <g fill="rgba(255,255,255,.35)" font-size="10" font-family="Inter">
+              <text x="12" y="34">160</text><text x="20" y="84">120</text><text x="26" y="134">80</text><text x="26" y="184">40</text>
+            </g>
+            <!-- enquiries area + line -->
+            <polygon fill="url(#fillEnq)" points="40,118 156,100 272,72 388,84 504,52 620,46 620,200 40,200"/>
+            <polyline fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="40,118 156,100 272,72 388,84 504,52 620,46"/>
+            <!-- bookings line -->
+            <polyline fill="none" stroke="#00b894" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="40,182 156,178 272,170 388,174 504,166 620,168"/>
+            <!-- points -->
+            <g fill="#ff6b6b"><circle cx="40" cy="118" r="3.5"/><circle cx="156" cy="100" r="3.5"/><circle cx="272" cy="72" r="3.5"/><circle cx="388" cy="84" r="3.5"/><circle cx="504" cy="52" r="3.5"/><circle cx="620" cy="46" r="3.5"/></g>
+            <g fill="#34d39a"><circle cx="40" cy="182" r="3"/><circle cx="156" cy="178" r="3"/><circle cx="272" cy="170" r="3"/><circle cx="388" cy="174" r="3"/><circle cx="504" cy="166" r="3"/><circle cx="620" cy="168" r="3"/></g>
+            <!-- x labels -->
+            <g fill="rgba(255,255,255,.4)" font-size="11" font-family="Inter" text-anchor="middle">
+              <text x="40" y="222">Jan</text><text x="156" y="222">Feb</text><text x="272" y="222">Mar</text><text x="388" y="222">Apr</text><text x="504" y="222">May</text><text x="620" y="222">Jun</text>
+            </g>
+          </svg>
+          <div class="chart-legend">
+            <span><i class="lg-dot" style="background:#e74c3c"></i> Enquiries</span>
+            <span><i class="lg-dot" style="background:#00b894"></i> Confirmed Bookings</span>
+          </div>
+        </div>
+
+        <!-- donut -->
+        <div class="panel">
+          <div class="panel-head"><div><h4>Revenue by Category</h4><p>This month</p></div></div>
+          <div class="donut-wrap">
+            <svg viewBox="0 0 180 180" width="180" height="180">
+              <g transform="rotate(-90 90 90)" fill="none" stroke-width="22">
+                <circle cx="90" cy="90" r="70" stroke="rgba(255,255,255,.05)"/>
+                <circle cx="90" cy="90" r="70" stroke="#e74c3c" stroke-dasharray="228 440" stroke-dashoffset="0"/>
+                <circle cx="90" cy="90" r="70" stroke="#00b894" stroke-dasharray="123 440" stroke-dashoffset="-228"/>
+                <circle cx="90" cy="90" r="70" stroke="#f59e0b" stroke-dasharray="62 440" stroke-dashoffset="-351"/>
+                <circle cx="90" cy="90" r="70" stroke="#6c5ce7" stroke-dasharray="27 440" stroke-dashoffset="-413"/>
+              </g>
+              <text x="90" y="86" text-anchor="middle" class="donut-center-val">₹42Cr</text>
+              <text x="90" y="104" text-anchor="middle" class="donut-center-lbl">TOTAL</text>
+            </svg>
+            <div class="donut-legend">
+              <div class="donut-li"><i class="lg-dot" style="background:#e74c3c"></i> Residential <span class="dv">52%</span></div>
+              <div class="donut-li"><i class="lg-dot" style="background:#00b894"></i> Commercial <span class="dv">28%</span></div>
+              <div class="donut-li"><i class="lg-dot" style="background:#f59e0b"></i> Villas <span class="dv">14%</span></div>
+              <div class="donut-li"><i class="lg-dot" style="background:#6c5ce7"></i> Land/Plots <span class="dv">6%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OCCUPANCY + QUICK ACTIONS -->
+      <div class="chart-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h4>Occupancy by City</h4><p>Across all managed projects</p></div></div>
+          <div class="prog-row"><div class="prog-top"><span class="pl">Chennai — 14 projects</span><span class="pv">96%</span></div><div class="prog-bar"><div class="prog-fill" style="width:96%"></div></div></div>
+          <div class="prog-row"><div class="prog-top"><span class="pl">Bangalore — 5 projects</span><span class="pv">88%</span></div><div class="prog-bar"><div class="prog-fill" style="width:88%"></div></div></div>
+          <div class="prog-row"><div class="prog-top"><span class="pl">Hyderabad — 3 projects</span><span class="pv">81%</span></div><div class="prog-bar"><div class="prog-fill" style="width:81%"></div></div></div>
+          <div class="prog-row"><div class="prog-top"><span class="pl">Mumbai — 2 projects</span><span class="pv">74%</span></div><div class="prog-bar"><div class="prog-fill" style="width:74%"></div></div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h4>Quick Actions</h4><p>Common tasks</p></div></div>
+          <div class="qa-grid">
+            <button class="qa-btn" onclick="navTo404()"><i class="fa-solid fa-plus"></i><div><div class="qa-t">Add Property</div><div class="qa-s">List a new project</div></div></button>
+            <button class="qa-btn" onclick="navTo404()"><i class="fa-solid fa-user-plus"></i><div><div class="qa-t">Add Tenant</div><div class="qa-s">Onboard a tenant</div></div></button>
+            <button class="qa-btn" onclick="navTo404()"><i class="fa-solid fa-file-export"></i><div><div class="qa-t">Generate Report</div><div class="qa-s">Monthly summary</div></div></button>
+            <button class="qa-btn" onclick="navTo404()"><i class="fa-solid fa-bullhorn"></i><div><div class="qa-t">Send Broadcast</div><div class="qa-s">Notify all tenants</div></div></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div class="dash-section-head"><h3>Recent <em>Activity</em></h3></div>
+      <div class="bottom-grid">
+        <!-- recent enquiries table -->
+        <div class="panel">
+          <div class="panel-head"><div><h4>Latest Enquiries</h4></div><a class="view-link" onclick="navTo404()" style="cursor:pointer">View all →</a></div>
+          <div class="table-scroll">
+          <table class="dash-table">
+            <thead><tr><th>Client</th><th>Property</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="t-name">Yug Sharma</td><td>Stackly Altius · Porur</td><td><span class="act-badge b-new">New</span></td></tr>
+              <tr><td class="t-name">Priya Nair</td><td>Stackly Crest · ECR</td><td><span class="act-badge b-open">Open</span></td></tr>
+              <tr><td class="t-name">Rahul Verma</td><td>Stackly Pinnacle · OMR</td><td><span class="act-badge b-confirmed">Booked</span></td></tr>
+              <tr><td class="t-name">Meera Iyer</td><td>Stackly Exchange · Velachery</td><td><span class="act-badge b-pending">Pending</span></td></tr>
+              <tr><td class="t-name">Karan Patel</td><td>Stackly Zenith · Sholinganallur</td><td><span class="act-badge b-open">Open</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+        <!-- activity feed -->
+        <div class="panel">
+          <div class="panel-head"><div><h4>System Activity</h4></div><a class="view-link" onclick="navTo404()" style="cursor:pointer">View all →</a></div>
+          <div class="act-item"><div class="act-icon" style="background:rgba(192,57,43,.14);color:var(--accent3)"><i class="fa-solid fa-comment-dots"></i></i></div><div class="act-body"><div class="act-name">New enquiry — Stackly Altius, 3BHK</div><div class="act-meta">Porur · 2 min ago</div></div><span class="act-badge b-new">New</span></div>
+          <div class="act-item"><div class="act-icon" style="background:rgba(0,184,148,.14);color:#34d39a"><i class="fa-solid fa-indian-rupee-sign"></i></div><div class="act-body"><div class="act-name">Rent collected — ₹2.4L</div><div class="act-meta">12 units · 38 min ago</div></div><span class="act-badge b-confirmed">Paid</span></div>
+          <div class="act-item"><div class="act-icon" style="background:rgba(245,158,11,.14);color:var(--amber)"><i class="fa-solid fa-wrench"></i></div><div class="act-body"><div class="act-name">Maintenance ticket assigned</div><div class="act-meta">Plumbing · Stackly Crest · 1 hr ago</div></div><span class="act-badge b-pending">Open</span></div>
+          <div class="act-item"><div class="act-icon" style="background:rgba(108,92,231,.14);color:#a78bfa"><i class="fa-solid fa-user-plus"></i></div><div class="act-body"><div class="act-name">New tenant onboarded</div><div class="act-meta">Meera Iyer · 3 hr ago</div></div><span class="act-badge b-confirmed">Done</span></div>
+          <div class="act-item"><div class="act-icon" style="background:rgba(59,130,246,.16);color:var(--blue)"><i class="fa-solid fa-file-signature"></i></div><div class="act-body"><div class="act-name">Lease renewed — Unit 12B</div><div class="act-meta">Stackly Pinnacle · 5 hr ago</div></div><span class="act-badge b-open">Signed</span></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+'use strict';
+/* navigate non-built menu items to the 404 page */
+function navTo404(){ try{sessionStorage.setItem('pms_ref',window.location.href);}catch(e){} window.location.href='404page.html'; }
+
+/* sidebar mobile toggle */
+var _open=false;
+function toggleDashSidebar(){
+  if(window.innerWidth>900)return;
+  _open=!_open;
+  var sb=document.getElementById('sidebar'),ham=document.getElementById('dashHam'),ov=document.getElementById('dashOverlay');
+  if(_open){sb.classList.add('open');ham.classList.add('open');ov.style.display='block';document.body.style.overflow='hidden';}
+  else closeDashSidebar();
+}
+function closeDashSidebar(){
+  _open=false;
+  var sb=document.getElementById('sidebar'),ham=document.getElementById('dashHam'),ov=document.getElementById('dashOverlay');
+  if(sb)sb.classList.remove('open');if(ham)ham.classList.remove('open');if(ov)ov.style.display='none';
+  document.body.style.overflow='';
+}
+window.addEventListener('resize',function(){if(window.innerWidth>900)closeDashSidebar();});
+window.addEventListener('pageshow',function(){closeDashSidebar();});
+
+/* sign out */
+function signOut(){try{['sl_user','sl_email','sl_role','sl_initials'].forEach(function(k){localStorage.removeItem(k);});}catch(e){}window.location.href='login.html';}
+
+/* greeting + identity from session */
+(function(){
+  var user='Admin User',email='admin@stackly.in';
+  try{user=localStorage.getItem('sl_user')||user;email=localStorage.getItem('sl_email')||email;}catch(e){}
+  var initials=user.split(' ').map(function(n){return n[0];}).join('').toUpperCase().slice(0,2)||'AD';
+  var a1=document.getElementById('sidebarAvatar');if(a1)a1.textContent=initials;
+  var a2=document.getElementById('topbarAvatar');if(a2)a2.textContent=initials;
+  var sn=document.getElementById('sidebarName');if(sn)sn.textContent=user;
+  var se=document.getElementById('sidebarEmail');if(se)se.textContent=email;
+  var g=document.getElementById('dashGreeting');
+  if(g){var first=user.split(' ')[0];var h=new Date().getHours();var t=h<12?'Good Morning':h<17?'Good Afternoon':'Good Evening';g.innerHTML=t+', <span>'+first+'</span>';}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Redirecting — Stackly PMS</title>
+</head>
+<body>
+<script>
+(function(){
+  var role='admin';
+  try{role=localStorage.getItem('sl_role')||'admin';}catch(e){}
+  window.location.replace(role==='user'?'dashboard_user.html':'dashboard_admin.html');
+})();
+</script>
+</body>
+</html>

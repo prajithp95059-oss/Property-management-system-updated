@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Services — Stackly PMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* HERO */
+.pg-hero{background:#050505;padding:160px 0 90px;text-align:center;position:relative;overflow:hidden;}
+.pg-hero-img{position:absolute;inset:0;z-index:0;}
+.pg-hero-img img{width:100%;height:100%;object-fit:cover;opacity:.22;filter:saturate(0.6);}
+.pg-hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(5,5,5,.75) 0%,rgba(5,5,5,.5) 50%,rgba(5,5,5,.9) 100%);}
+.pg-hero-inner{position:relative;z-index:2;}
+.pg-hero h1{font-family:var(--font-head);font-size:clamp(2.4rem,5vw,3.8rem);color:#fff;margin-bottom:14px;}
+.pg-hero h1 em{color:var(--clr-accent2);font-style:italic;}
+.pg-hero p{color:rgba(255,255,255,.6);font-size:1rem;max-width:520px;margin:0 auto;line-height:1.8;}
+.breadcrumb{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:18px;font-size:.78rem;color:rgba(255,255,255,.35);}
+.breadcrumb a{color:rgba(255,255,255,.35);transition:color .28s;}.breadcrumb a:hover{color:var(--clr-accent2);}
+
+/* SERVICE GRID */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px;}
+.svc-card{background:var(--clr-card);border-radius:18px;overflow:hidden;border:1px solid var(--clr-border);transition:transform .28s,box-shadow .28s,border-color .28s;}
+.svc-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.55);border-color:rgba(192,57,43,.22);}
+.svc-img{height:200px;overflow:hidden;position:relative;background:#141414;}
+.svc-img img{width:100%;height:100%;object-fit:cover;transition:transform .55s;display:block;}
+.svc-card:hover .svc-img img{transform:scale(1.07);}
+.svc-img-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(26,26,26,.95) 100%);}
+.svc-body{padding:20px 22px;}
+.svc-icon-row{display:flex;align-items:center;gap:11px;margin-bottom:11px;}
+.svc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+.svc-title{font-family:var(--font-head);font-size:1.1rem;font-weight:700;color:#fff;}
+.svc-desc{font-size:.82rem;color:var(--clr-muted);line-height:1.72;margin-bottom:14px;}
+.svc-list{display:flex;flex-direction:column;gap:7px;}
+.svc-item{display:flex;align-items:center;gap:8px;font-size:.78rem;color:rgba(255,255,255,.55);}
+.svc-item i{color:var(--clr-teal);font-size:.65rem;flex-shrink:0;}
+.svc-learn{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--clr-accent2);margin-top:14px;font-weight:600;cursor:pointer;transition:gap .2s;}
+.svc-learn:hover{gap:10px;}
+
+/* HOW IT WORKS */
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:36px;position:relative;}
+.how-grid::before{content:'';position:absolute;top:24px;transform:translateY(-50%);left:calc(12.5% + 24px);right:calc(12.5% + 24px);height:2px;background:linear-gradient(90deg,var(--clr-accent),var(--clr-accent2),var(--clr-teal));opacity:.25;z-index:0;}
+.how-step{text-align:center;position:relative;z-index:1;}
+.how-num{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--clr-accent),#8b0000);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:1.1rem;font-weight:700;color:#fff;margin:0 auto 14px;box-shadow:0 6px 22px rgba(192,57,43,.35);}
+.how-title{font-family:var(--font-head);font-size:1rem;color:#fff;margin-bottom:8px;}
+.how-desc{font-size:.8rem;color:var(--clr-muted);line-height:1.65;}
+
+/* process */
+.steps{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  margin-top:56px;
+  position:relative;
+}
+/* line runs through the exact vertical center of the 52px circles */
+.steps::before{
+  content:'';
+  position:absolute;
+  top:26px;                 /* 52px circle ÷ 2 = 26px center */
+  transform:translateY(-50%);
+  left:calc(12.5% + 26px);  /* start at edge of circle 1, not its center */
+  right:calc(12.5% + 26px); /* stop at edge of circle 4 */
+  height:2px;
+  background:linear-gradient(90deg,var(--clr-accent),var(--clr-accent3),var(--clr-accent));
+  border-radius:2px;
+  z-index:0;
+}
+.step{
+  text-align:center;
+  padding:0 18px;
+  position:relative;
+  z-index:1;
+}
+.step-num{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:var(--clr-accent);
+  color:#fff;
+  font-size:.95rem;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 20px;        /* no top margin → circle top = container top */
+  position:relative;
+  z-index:2;
+  box-shadow:var(--shadow-accent),0 0 0 6px #0a0a0a; /* ring hides line behind circle */
+}
+
+/* STATS BAND */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:52px 0;}
+.stat-box{text-align:center;padding:28px 20px;background:rgba(255,255,255,.03);border-radius:16px;border:1px solid var(--clr-border);transition:border-color .28s;}
+.stat-box:hover{border-color:rgba(192,57,43,.25);}
+.stat-val{font-family:var(--font-head);font-size:2.4rem;font-weight:700;color:#fff;line-height:1;}
+.stat-val em{color:var(--clr-accent2);font-style:normal;}
+.stat-lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--clr-muted);margin-top:7px;}
+
+/* COMPARISON TABLE */
+.compare-wrap{overflow-x:auto;margin-top:36px;}
+.compare-tbl{width:100%;border-collapse:collapse;min-width:560px;}
+.compare-tbl th{padding:14px 18px;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--clr-accent2);background:var(--clr-card);border-bottom:2px solid var(--clr-border);text-align:left;}
+.compare-tbl th:first-child{border-radius:12px 0 0 0;}
+.compare-tbl th:last-child{border-radius:0 12px 0 0;}
+.compare-tbl td{padding:13px 18px;font-size:.82rem;color:rgba(255,255,255,.6);border-bottom:1px solid var(--clr-border2);}
+.compare-tbl tr:last-child td{border-bottom:none;}
+.compare-tbl tr:hover td{background:rgba(255,255,255,.02);}
+.compare-tbl td:first-child{color:rgba(255,255,255,.75);font-weight:500;}
+.chk{color:var(--clr-teal);font-size:.9rem;}
+.dash{color:rgba(255,255,255,.22);}
+
+/* INTEGRATION LOGOS */
+.int-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:36px;}
+.int-card{background:var(--clr-card);border:1px solid var(--clr-border);border-radius:12px;padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .25s,transform .25s;}
+.int-card:hover{border-color:rgba(192,57,43,.3);transform:translateY(-3px);}
+.int-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.int-name{font-size:.7rem;color:var(--clr-muted);font-weight:600;text-align:center;}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px;}
+.price-card{background:var(--clr-card);border-radius:20px;padding:32px 26px;border:1px solid var(--clr-border);position:relative;transition:transform .28s,box-shadow .28s,border-color .28s;}
+.price-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);}
+.price-card.hot{background:linear-gradient(135deg,#1a0505,#120202);border-color:rgba(192,57,43,.35);}
+.hot-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--clr-accent),#8b0000);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:50px;white-space:nowrap;}
+.price-plan{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--clr-accent2);margin-bottom:12px;}
+.price-amount{font-family:var(--font-head);font-size:2.6rem;font-weight:700;color:#fff;line-height:1;}
+.price-per{font-size:.78rem;color:var(--clr-muted);margin-bottom:24px;margin-top:4px;}
+.price-features{display:flex;flex-direction:column;gap:9px;margin-bottom:26px;}
+.pf{display:flex;align-items:center;gap:9px;font-size:.82rem;color:rgba(255,255,255,.62);}
+.pf i{color:var(--clr-teal);font-size:.68rem;flex-shrink:0;}
+.price-btn{width:100%;padding:12px;border-radius:10px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;font-family:var(--font-body);transition:all .25s;}
+.pb-o{background:transparent;border:1.5px solid var(--clr-border);color:rgba(255,255,255,.65);}
+.pb-o:hover{border-color:var(--clr-accent2);color:var(--clr-accent2);}
+.pb-f{background:linear-gradient(135deg,var(--clr-accent),#8b0000);color:#fff;box-shadow:var(--shadow-accent);}
+.pb-f:hover{transform:translateY(-2px);filter:brightness(1.08);}
+
+/* FAQ */
+.faq-list{margin-top:36px;display:flex;flex-direction:column;gap:12px;}
+.faq-item{background:var(--clr-card);border-radius:14px;border:1px solid var(--clr-border);overflow:hidden;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;color:#fff;font-size:.9rem;font-weight:500;gap:12px;transition:color .28s;}
+.faq-q:hover{color:var(--clr-accent2);}
+.faq-q i{flex-shrink:0;transition:transform .32s;color:var(--clr-accent2);}
+.faq-item.open .faq-q i{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s,padding .3s;}
+.faq-item.open .faq-a{max-height:300px;padding:0 22px 18px;}
+.faq-a p{font-size:.85rem;color:var(--clr-muted);line-height:1.75;}
+
+/* CTA BAND */
+.cta-band{background:linear-gradient(135deg,#1a0505 0%,#0d0d0d 50%,#05101a 100%);padding:80px 0;text-align:center;border-top:1px solid var(--clr-border);}
+.cta-band h2{font-family:var(--font-head);font-size:clamp(1.8rem,3.5vw,2.8rem);color:#fff;margin-bottom:12px;}
+.cta-band h2 em{color:var(--clr-accent2);font-style:italic;}
+.cta-band p{font-size:.92rem;color:var(--clr-muted);max-width:480px;margin:0 auto 28px;line-height:1.75;}
+.cta-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+
+@media(max-width:1100px){.svc-grid{grid-template-columns:1fr 1fr;}.how-grid{grid-template-columns:1fr 1fr;}.how-grid::before{display:none;}.price-grid{grid-template-columns:1fr;}.stats-row{grid-template-columns:1fr 1fr;}.int-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){.stats-row{grid-template-columns:1fr 1fr;gap:14px;}.compare-tbl th,.compare-tbl td{padding:11px 12px;font-size:.78rem;}}
+@media(max-width:640px){.svc-grid{grid-template-columns:1fr;}.how-grid{grid-template-columns:1fr 1fr;}.int-grid{grid-template-columns:repeat(2,1fr);}.cta-actions{flex-direction:column;align-items:center;}}
+@media(max-width:480px){.how-grid{grid-template-columns:1fr;}.stats-row{grid-template-columns:1fr;}.int-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="s-header always-solid" id="sHeader">
+  <div class="s-nav-inner">
+    <a href="index.html" class="s-logo">
+      <div class="s-logo-mark"><img src="./assets/stackly logo.webp" alt=""></div>
+      <div class="s-logo-text">STACK<em>LY</em></div>
+    </a>
+    <nav class="s-nav">
+      <a href="index.html" class="s-nav-link">Home</a>
+      <a href="about.html" class="s-nav-link">About</a>
+      <a href="services.html" class="s-nav-link active">Services</a>
+      <a href="properties.html" class="s-nav-link">Properties</a>
+      <a href="blog.html" class="s-nav-link">Blog</a>
+       <a href="contact.html" class="s-nav-link">Contact</a>
+    </nav>
+    <div class="s-header-right">
+      <a href="login.html" class="s-btn-login">Login</a>
+      <button class="s-hamburger" id="sHam" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="s-mobile-menu" id="sMob">
+  <a href="index.html" class="s-nav-link">Home</a>
+  <a href="about.html" class="s-nav-link">About</a>
+  <a href="services.html" class="s-nav-link active">Services</a>
+  <a href="properties.html" class="s-nav-link">Properties</a>
+   <a href="blog.html" class="s-nav-link">Blog</a>
+  <a href="contact.html" class="s-nav-link">Contact</a>
+  <a href="login.html" class="s-btn-login">Login</a>
+</div>
+
+<!-- HERO -->
+<section class="pg-hero">
+  <div class="pg-hero-img"><img src="./assets/meeting 1.webp" alt="Services"></div>
+  <div class="pg-hero-overlay"></div>
+  <div class="s-container pg-hero-inner">
+    <div class="s-eyebrow" style="justify-content:center">What We Offer</div>
+    <h1>Our <em>Services</em></h1>
+    <p>Comprehensive property management solutions — from tenant onboarding to revenue analytics — designed for India's modern real estate professionals.</p>
+    <nav class="breadcrumb"><a href="index.html">Home</a><i class="fa-solid fa-chevron-right" style="font-size:.55rem"></i><span>Services</span></nav>
+  </div>
+</section>
+
+<!-- CORE SERVICES -->
+<section class="s-section" style="background:#0f0f0f;">
+  <div class="s-container">
+    <div style="text-align:center"><div class="s-eyebrow" style="justify-content:center">Core Services</div><h2 class="s-title" style="text-align:center">Everything Your <em>Portfolio Needs</em></h2><div class="s-divider center"></div></div>
+    <div class="svc-grid">
+      <div class="svc-card reveal">
+        <div class="svc-img"><img src="./assets/dashboard.webp" alt="Dashboard"><div class="svc-img-overlay"></div></div>
+        <div class="svc-body"><div class="svc-icon-row"><div class="svc-icon" style="background:rgba(192,57,43,.12);color:var(--clr-accent2)"><i class="fa-solid fa-gauge-high"></i></div><div class="svc-title">Property Dashboard</div></div><p class="svc-desc">Your complete command centre. Monitor occupancy, revenue, maintenance and enquiries in real time across your entire portfolio.</p><div class="svc-list"><div class="svc-item"><i class="fa-solid fa-check"></i>Live KPI monitoring</div><div class="svc-item"><i class="fa-solid fa-check"></i>Custom report builder</div><div class="svc-item"><i class="fa-solid fa-check"></i>Multi-property view</div><div class="svc-item"><i class="fa-solid fa-check"></i>Mobile-first interface</div></div><span class="svc-learn" onclick="pmsNav()">Learn more <i class="fa-solid fa-arrow-right"></i></span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.07s">
+        <div class="svc-img"><img src="./assets/team.webp" alt="Tenants"><div class="svc-img-overlay"></div></div>
+        <div class="svc-body"><div class="svc-icon-row"><div class="svc-icon" style="background:rgba(0,184,148,.1);color:var(--clr-teal)"><i class="fa-solid fa-users"></i></div><div class="svc-title">Tenant Management</div></div><p class="svc-desc">Manage every tenant interaction from onboarding to offboarding — digital KYC, communication, notices and complaint resolution.</p><div class="svc-list"><div class="svc-item"><i class="fa-solid fa-check"></i>Digital tenant portal</div><div class="svc-item"><i class="fa-solid fa-check"></i>Automated reminders</div><div class="svc-item"><i class="fa-solid fa-check"></i>In-app messaging</div><div class="svc-item"><i class="fa-solid fa-check"></i>Notice board</div></div><span class="svc-learn" onclick="pmsNav()">Learn more <i class="fa-solid fa-arrow-right"></i></span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.14s">
+        <div class="svc-img"><img src="./assets/investment.webp" alt="Finance"><div class="svc-img-overlay"></div></div>
+        <div class="svc-body"><div class="svc-icon-row"><div class="svc-icon" style="background:rgba(108,92,231,.1);color:var(--clr-purple)"><i class="fa-solid fa-indian-rupee-sign"></i></div><div class="svc-title">Rent Collection</div></div><p class="svc-desc">Automated rent collection via UPI, auto-debit and 15+ payment gateways. Late fees, receipts and reconciliation handled automatically.</p><div class="svc-list"><div class="svc-item"><i class="fa-solid fa-check"></i>UPI & auto-debit</div><div class="svc-item"><i class="fa-solid fa-check"></i>GST invoices</div><div class="svc-item"><i class="fa-solid fa-check"></i>Late fee automation</div><div class="svc-item"><i class="fa-solid fa-check"></i>Bank reconciliation</div></div><span class="svc-learn" onclick="pmsNav()">Learn more <i class="fa-solid fa-arrow-right"></i></span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.1s">
+        <div class="svc-img"><img src="./assets/maintance.webp" alt="Maintenance"><div class="svc-img-overlay"></div></div>
+        <div class="svc-body"><div class="svc-icon-row"><div class="svc-icon" style="background:rgba(192,57,43,.1);color:var(--clr-accent3)"><i class="fa-solid fa-wrench"></i></div><div class="svc-title">Maintenance Tracking</div></div><p class="svc-desc">End-to-end maintenance workflow — raise tickets, assign vendors, track SLAs and close jobs with photo verification.</p><div class="svc-list"><div class="svc-item"><i class="fa-solid fa-check"></i>Work order system</div><div class="svc-item"><i class="fa-solid fa-check"></i>Vendor directory</div><div class="svc-item"><i class="fa-solid fa-check"></i>SLA tracking</div><div class="svc-item"><i class="fa-solid fa-check"></i>Photo proof of work</div></div><span class="svc-learn" onclick="pmsNav()">Learn more <i class="fa-solid fa-arrow-right"></i></span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.17s">
+        <div class="svc-img"><img src="./assets/leace.webp" alt="Leasing"><div class="svc-img-overlay"></div></div>
+        <div class="svc-body"><div class="svc-icon-row"><div class="svc-icon" style="background:rgba(0,184,148,.1);color:var(--clr-teal)"><i class="fa-solid fa-file-contract"></i></div><div class="svc-title">Digital Leasing</div></div><p class="svc-desc">RERA-compliant digital leases with Aadhaar e-sign, auto-renewal alerts and a searchable document vault.</p><div class="svc-list"><div class="svc-item"><i class="fa-solid fa-check"></i>Aadhaar e-sign</div><div class="svc-item"><i class="fa-solid fa-check"></i>Template library</div><div class="svc-item"><i class="fa-solid fa-check"></i>Auto-renewal alerts</div><div class="svc-item"><i class="fa-solid fa-check"></i>Secure cloud vault</div></div><span class="svc-learn" onclick="pmsNav()">Learn more <i class="fa-solid fa-arrow-right"></i></span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.24s">
+        <div class="svc-img"><img src="./assets/analytics.webp" alt="Analytics"><div class="svc-img-overlay"></div></div>
+        <div class="svc-body"><div class="svc-icon-row"><div class="svc-icon" style="background:rgba(108,92,231,.1);color:var(--clr-purple)"><i class="fa-solid fa-chart-pie"></i></div><div class="svc-title">Analytics & Reports</div></div><p class="svc-desc">AI-powered revenue forecasting, occupancy heat maps and financial intelligence reports to maximise portfolio ROI.</p><div class="svc-list"><div class="svc-item"><i class="fa-solid fa-check"></i>AI revenue forecasting</div><div class="svc-item"><i class="fa-solid fa-check"></i>Occupancy trends</div><div class="svc-item"><i class="fa-solid fa-check"></i>Custom Excel exports</div><div class="svc-item"><i class="fa-solid fa-check"></i>Investor reports</div></div><span class="svc-learn" onclick="pmsNav()">Learn more <i class="fa-solid fa-arrow-right"></i></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="s-section" style="background:#0a0a0a;">
+  <div class="s-container">
+    <div style="text-align:center"><div class="s-eyebrow" style="justify-content:center">Process</div><h2 class="s-title" style="text-align:center">Get Running in <em>4 Simple Steps</em></h2><div class="s-divider center"></div></div>
+    <div class="how-grid">
+      <div class="how-step reveal"><div class="how-num">1</div><h4 class="how-title">Sign Up Free</h4><p class="how-desc">Create your account in 2 minutes — no credit card, no commitment. Starter plan is free for up to 5 units.</p></div>
+      <div class="how-step reveal" style="transition-delay:.1s"><div class="how-num">2</div><h4 class="how-title">Add Properties</h4><p class="how-desc">Import your listings from Excel or add manually. Our onboarding team helps migrate your existing data at zero cost.</p></div>
+      <div class="how-step reveal" style="transition-delay:.2s"><div class="how-num">3</div><h4 class="how-title">Invite Tenants</h4><p class="how-desc">Send a magic link to your tenants. They create their portal in minutes, no app download required.</p></div>
+      <div class="how-step reveal" style="transition-delay:.3s"><div class="how-num">4</div><h4 class="how-title">Automate & Grow</h4><p class="how-desc">Stackly handles rent reminders, maintenance routing and reporting so you can focus on growing your portfolio.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<section style="background:#111;border-top:1px solid var(--clr-border);border-bottom:1px solid var(--clr-border);">
+  <div class="s-container">
+    <div class="stats-row">
+      <div class="stat-box reveal"><div class="stat-val">3,200<em>+</em></div><div class="stat-lbl">Properties Managed</div></div>
+      <div class="stat-box reveal" style="transition-delay:.08s"><div class="stat-val">98<em>%</em></div><div class="stat-lbl">Customer Satisfaction</div></div>
+      <div class="stat-box reveal" style="transition-delay:.16s"><div class="stat-val">₹42<em>Cr</em></div><div class="stat-lbl">Monthly Rent Collected</div></div>
+      <div class="stat-box reveal" style="transition-delay:.24s"><div class="stat-val">18<em>+</em></div><div class="stat-lbl">Cities Covered</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="s-section" style="background:#0a0a0a;">
+  <div class="s-container">
+    <div style="text-align:center"><div class="s-eyebrow" style="justify-content:center">Comparison</div><h2 class="s-title" style="text-align:center">Stackly vs <em>Traditional Methods</em></h2><div class="s-divider center"></div></div>
+    <div class="compare-wrap reveal">
+      <table class="compare-tbl">
+        <tr><th>Feature</th><th>Stackly PMS</th><th>Spreadsheets</th><th>Other PMS</th></tr>
+        <tr><td>Real-time portfolio dashboard</td><td class="chk"><i class="fa-solid fa-check"></i></td><td class="dash">—</td><td class="dash">Partial</td></tr>
+        <tr><td>Mobile-first design</td><td class="chk"><i class="fa-solid fa-check"></i></td><td class="dash">—</td><td class="dash">—</td></tr>
+        <tr><td>UPI / Auto-debit rent collection</td><td class="chk"><i class="fa-solid fa-check"></i></td><td class="dash">—</td><td class="dash">Partial</td></tr>
+        <tr><td>RERA compliance module</td><td class="chk"><i class="fa-solid fa-check"></i></td><td class="dash">—</td><td class="dash">—</td></tr>
+        <tr><td>Tenant self-service portal</td><td class="chk"><i class="fa-solid fa-check"></i></td><td class="dash">—</td><td class="chk"><i class="fa-solid fa-check"></i></td></tr>
+        <tr><td>AI revenue forecasting</td><td class="chk"><i class="fa-solid fa-check"></i></td><td class="dash">—</td><td class="dash">—</td></tr>
+        <tr><td>Aadhaar e-sign leases</td><td class="chk"><i class="fa-solid fa-check"></i></td><td class="dash">—</td><td class="dash">—</td></tr>
+        <tr><td>Indian 24/7 support</td><td class="chk"><i class="fa-solid fa-check"></i></td><td class="dash">—</td><td class="dash">Email only</td></tr>
+        <tr><td>Setup time</td><td style="color:var(--clr-teal)">1 afternoon</td><td>Hours weekly</td><td>2–4 weeks</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATIONS -->
+<section class="s-section" style="background:#111;">
+  <div class="s-container">
+    <div style="text-align:center"><div class="s-eyebrow" style="justify-content:center">Integrations</div><h2 class="s-title" style="text-align:center">Connects With Tools <em>You Already Use</em></h2><div class="s-divider center"></div></div>
+    <div class="int-grid">
+      <div class="int-card reveal"><div class="int-icon" style="background:#e8f0fe"><i class="fab fa-google" style="color:#4285f4"></i></div><div class="int-name">Google Pay</div></div>
+      <div class="int-card reveal" style="transition-delay:.05s"><div class="int-icon" style="background:#fff5e6"><i class="fa-solid fa-bolt" style="color:#ff9500"></i></div><div class="int-name">PhonePe</div></div>
+      <div class="int-card reveal" style="transition-delay:.1s"><div class="int-icon" style="background:#e8f8f0"><i class="fab fa-whatsapp" style="color:#25d366"></i></div><div class="int-name">WhatsApp</div></div>
+      <div class="int-card reveal" style="transition-delay:.15s"><div class="int-icon" style="background:#fce4ec"><i class="fa-solid fa-file-excel" style="color:#217346"></i></div><div class="int-name">Excel / Sheets</div></div>
+      <div class="int-card reveal" style="transition-delay:.2s"><div class="int-icon" style="background:#e3f2fd"><i class="fab fa-microsoft" style="color:#00a4ef"></i></div><div class="int-name">Outlook</div></div>
+      <div class="int-card reveal" style="transition-delay:.25s"><div class="int-icon" style="background:#ede7f6"><i class="fa-solid fa-envelope" style="color:#7c3aed"></i></div><div class="int-name">Email / SMS</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="s-section" style="background:#0a0a0a;">
+  <div class="s-container">
+    <div style="text-align:center"><div class="s-eyebrow" style="justify-content:center">Pricing</div><h2 class="s-title" style="text-align:center">Simple <em>Transparent</em> Pricing</h2><p class="s-desc" style="text-align:center;margin:0 auto">No hidden fees. Cancel anytime. All plans include free onboarding support.</p><div class="s-divider center"></div></div>
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <div class="price-plan">Starter</div>
+        <div class="price-amount">₹1,999</div>
+        <div class="price-per">per month · up to 25 units</div>
+        <div class="price-features">
+          <div class="pf"><i class="fa-solid fa-check"></i>25 units</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Tenant portal</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Rent collection</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Basic reports</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Email & chat support</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>30-day free trial</div>
+        </div>
+        <button class="price-btn pb-o" onclick="pmsNav()">Start Free Trial</button>
+      </div>
+      <div class="price-card hot reveal" style="transition-delay:.1s">
+        <div class="hot-badge">Most Popular</div>
+        <div class="price-plan">Professional</div>
+        <div class="price-amount">₹4,999</div>
+        <div class="price-per">per month · up to 100 units</div>
+        <div class="price-features">
+          <div class="pf"><i class="fa-solid fa-check"></i>100 units</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Full tenant portal</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Advanced analytics</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Maintenance module</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>AI forecasting</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Priority phone support</div>
+        </div>
+        <button class="price-btn pb-f" onclick="pmsNav()">Get Started</button>
+      </div>
+      <div class="price-card reveal" style="transition-delay:.2s">
+        <div class="price-plan">Enterprise</div>
+        <div class="price-amount">Custom</div>
+        <div class="price-per">Unlimited units · tailored SLA</div>
+        <div class="price-features">
+          <div class="pf"><i class="fa-solid fa-check"></i>Unlimited units</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>White-label branding</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>API access</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Dedicated manager</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>24/7 SLA support</div>
+          <div class="pf"><i class="fa-solid fa-check"></i>Custom integrations</div>
+        </div>
+        <button class="price-btn pb-o"  onclick="pmsNav()">Contact Sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="s-section" style="background:#111;">
+  <div class="s-container">
+    <div style="text-align:center"><div class="s-eyebrow" style="justify-content:center">FAQ</div><h2 class="s-title" style="text-align:center">Common <em>Questions</em></h2><div class="s-divider center"></div></div>
+    <div class="faq-list reveal">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is Stackly suitable for small landlords with just 2–3 properties?</span><i class="fa-solid fa-plus"></i></div><div class="faq-a"><p>Absolutely. Our Starter plan is designed for individuals managing 1–25 units. Many customers start with 2 properties and scale up. The platform is equally powerful at any size.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How long does setup take?</span><i class="fa-solid fa-plus"></i></div><div class="faq-a"><p>Most customers are fully live within one afternoon. We provide a free guided onboarding call, CSV import for your property list, and video tutorials for every feature. No technical knowledge required.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is my data safe? Where is it stored?</span><i class="fa-solid fa-plus"></i></div><div class="faq-a"><p>All data is stored on AWS Mumbai servers (India data residency). We use AES-256 encryption at rest and TLS 1.3 in transit. We are SOC 2 Type II audited and RERA registered. Daily backups retained for 90 days.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I migrate from my current software?</span><i class="fa-solid fa-plus"></i></div><div class="faq-a"><p>Yes — we support import from Excel, Google Sheets, and most major PMS platforms. Our onboarding team handles migration for Professional and Enterprise customers at no charge.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Do you offer a free trial?</span><i class="fa-solid fa-plus"></i></div><div class="faq-a"><p>Yes, all plans include a free 30-day trial with full feature access. No credit card required. After 30 days, choose the plan that fits or cancel with one click.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Does Stackly support multiple cities?</span><i class="fa-solid fa-plus"></i></div><div class="faq-a"><p>Yes. Stackly is currently active in 18 cities across India including Chennai, Bengaluru, Hyderabad, Mumbai, Pune, Delhi NCR and more. Multi-city portfolios are fully supported from a single dashboard.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="s-container">
+    <div class="s-eyebrow" style="justify-content:center">Get Started</div>
+    <h2>Ready to Simplify <em>Property Management?</em></h2>
+    <p>Join 3,200+ managers who've moved their entire portfolio to Stackly. Setup takes one afternoon.</p>
+    <div class="cta-actions">
+      <a href="./404page.html" class="s-btn s-btn-primary"><i class="fa-solid fa-rocket"></i> Start Free Trial</a>
+      <a href="./404page.html" class="s-btn s-btn-outline"><i class="fa-solid fa-phone"></i> Talk to Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- FULL FOOTER -->
+<footer class="s-footer">
+  <div class="s-footer-inner">
+    <div class="s-footer-grid">
+      <div class="s-footer-brand">
+                <a href="./index.html"><div class="s-footer-logo"><div class="s-logo-mark"><img src="./assets/stackly logo.webp" alt=""></div><div class="s-logo-text">STACK<em>LY</em></div></div></a>
+        <p>The premium property management platform for modern real estate professionals across India. RERA registered. Bank-grade secure.</p>
+        <div class="s-footer-socials">
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-facebook-f"></i></a>
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-instagram"></i></a>
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-linkedin-in"></i></a>
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-twitter"></i></a>
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="s-footer-col"><h5>Platform</h5><div class="s-footer-links"><a href="index.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Home</a><a href="about.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> About Us</a><a href="services.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Services</a><a href="properties.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Properties</a><a href="contact.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Contact</a><a href="blog.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Blog</a></div></div>
+      <div class="s-footer-col"><h5>Features</h5><div class="s-footer-links"><a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Smart Dashboard</a><a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Tenant Portal</a><a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Revenue Analytics</a><a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Maintenance Hub</a><a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Digital Leasing</a><a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Compliance Guard</a></div></div>
+      <div class="s-footer-col"><h5>Contact</h5><div class="s-footer-contact"><div class="s-footer-ci"><i class="fa-solid fa-location-dot"></i><span>MMR Complex, Salem, Tamil Nadu — 636008</span></div><div class="s-footer-ci"><i class="fa-solid fa-phone"></i><span>+91 44 4567 8901</span></div><div class="s-footer-ci"><i class="fa-solid fa-envelope"></i><a href="mailto:hello@stackly.in">hello@stackly.in</a></div><div class="s-footer-ci"><i class="fa-solid fa-clock"></i><span>Mon–Sat: 9 AM – 7 PM IST</span></div></div></div>
+    </div>
+  </div>
+  <div class="s-footer-inner"><div class="s-footer-bottom"><span>© 2026 Stackly Property Management. All rights reserved. RERA No. TN/01/2018</span><div class="s-footer-bottom-links"><a href="404page.html" onclick="pmsNav(event)">Privacy Policy</a><a href="404page.html" onclick="pmsNav(event)">Terms of Use</a><a href="404page.html" onclick="pmsNav(event)">RERA</a><a href="404page.html" onclick="pmsNav(event)">Sitemap</a></div></div></div>
+</footer>
+<button class="s-btt" id="sBtt"><i class="fa-solid fa-arrow-up"></i></button>
+<a href="./404page.html" class="s-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<script>
+'use strict';
+function pmsNav(e){if(e&&e.preventDefault)e.preventDefault();sessionStorage.setItem('pms_ref',window.location.href);sessionStorage.setItem('pms_scroll',window.scrollY);window.location.href='404page.html';}
+document.addEventListener('click',function(ev){var l=ev.target.closest('a[href]');if(l&&l.href&&l.href.indexOf('404page')!==-1){sessionStorage.setItem('pms_ref',window.location.href);sessionStorage.setItem('pms_scroll',window.scrollY);}});
+var ham=document.getElementById('sHam'),mob=document.getElementById('sMob');
+ham.addEventListener('click',function(){ham.classList.toggle('open');mob.classList.toggle('open');document.body.style.overflow=mob.classList.contains('open')?'hidden':'';});
+mob.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){ham.classList.remove('open');mob.classList.remove('open');document.body.style.overflow='';});});
+var btt=document.getElementById('sBtt');
+window.addEventListener('scroll',function(){btt.classList.toggle('show',window.scrollY>400);},{passive:true});
+btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('in');});},{threshold:.08});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(function(el){io.observe(el);});
+setTimeout(function(){document.querySelectorAll('.reveal,.reveal-l,.reveal-r:not(.in)').forEach(function(el){el.classList.add('in');});},400);
+function toggleFaq(el){var item=el.parentElement;item.classList.toggle('open');}
+
+// Restore scroll position if returning from 404
+(function(){
+  var sc=sessionStorage.getItem('pms_scroll_restore');
+  if(sc!==null){
+    sessionStorage.removeItem('pms_scroll_restore');
+    window.addEventListener('load',function(){window.scrollTo({top:parseInt(sc,10),behavior:'instant'});},{once:true});
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Blog — Stackly PMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── PAGE HERO ─────────────────────────── */
+.pg-hero{background:linear-gradient(135deg,#050505,#160808 50%,#050505);padding:160px 0 80px;text-align:center;position:relative;overflow:hidden;}
+.pg-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(192,57,43,.12) 0%,transparent 60%);pointer-events:none;}
+.pg-hero-img{position:absolute;inset:0;z-index:0;}
+.pg-hero-img img{width:100%;height:100%;object-fit:cover;}
+.pg-hero-inner{position:relative;z-index:1;}
+.pg-hero h1{font-family:var(--font-head);font-size:clamp(2.4rem,5vw,3.6rem);color:#fff;margin-bottom:12px;}
+.pg-hero h1 em{color:var(--clr-accent2);font-style:italic;}
+.pg-hero p{color:rgba(255,255,255,.5);font-size:1rem;max-width:480px;margin:0 auto 0;line-height:1.8;}
+.breadcrumb{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:18px;font-size:.78rem;color:rgba(255,255,255,.32);}
+.breadcrumb a{color:rgba(255,255,255,.32);transition:color .28s;}.breadcrumb a:hover{color:var(--clr-accent2);}
+
+/* ── FILTER BAR ─────────────────────────── */
+.filter-bar{background:#111;border-bottom:1px solid var(--clr-border);padding:18px 0;position:sticky;top:var(--nav-h);z-index:100;margin-bottom:0;}
+.filter-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.filter-tabs{display:flex;gap:8px;flex-wrap:wrap;}
+.filter-tab{padding:7px 18px;border-radius:50px;font-size:.78rem;font-weight:600;letter-spacing:.04em;cursor:pointer;border:1.5px solid var(--clr-border);background:transparent;color:var(--clr-muted);transition:all .28s var(--ease);}
+.filter-tab:hover{border-color:rgba(192,57,43,.4);color:var(--clr-white);}
+.filter-tab.active{background:var(--clr-accent);border-color:var(--clr-accent);color:#fff;box-shadow:0 4px 18px rgba(192,57,43,.35);}
+.search-wrap{position:relative;flex-shrink:0;}
+.search-wrap i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--clr-muted);font-size:.8rem;pointer-events:none;}
+.search-input{padding:8px 14px 8px 36px;background:var(--clr-card);border:1.5px solid var(--clr-border);border-radius:50px;color:#fff;font-size:.82rem;font-family:var(--font-body);outline:none;width:220px;transition:border-color .28s,width .3s;}
+.search-input::placeholder{color:var(--clr-muted);}
+.search-input:focus{border-color:var(--clr-accent2);width:260px;}
+
+/* ── FEATURED POST ─────────────────────── */
+.featured-wrap{background:#0a0a0a;}
+.featured-card{display:grid;grid-template-columns:1fr 1fr;border-radius:24px;overflow:hidden;border:1px solid var(--clr-border);background:var(--clr-card);transition:box-shadow .4s var(--ease),border-color .4s;}
+.featured-card:hover{box-shadow:var(--shadow-lg);border-color:rgba(192,57,43,.22);}
+.featured-img{position:relative;overflow:hidden;min-height:380px;}
+.featured-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);}
+.featured-card:hover .featured-img img{transform:scale(1.04);}
+.featured-badge{position:absolute;top:20px;left:20px;background:var(--clr-accent);color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:50px;}
+.featured-body{padding:48px 44px;display:flex;flex-direction:column;justify-content:center;}
+.feat-cat{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--clr-accent2);margin-bottom:12px;}
+.feat-title{font-family:var(--font-head);font-size:clamp(1.5rem,2.4vw,2rem);font-weight:700;color:#fff;line-height:1.22;margin-bottom:16px;}
+.feat-excerpt{font-size:.9rem;color:var(--clr-muted);line-height:1.76;margin-bottom:24px;}
+.feat-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:28px;}
+.feat-author{display:flex;align-items:center;gap:10px;}
+.feat-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--clr-border);}
+.feat-avatar-fallback{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--clr-accent),#8b0000);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0;}
+.feat-author-name{font-size:.8rem;font-weight:600;color:#fff;}
+.feat-date{font-size:.76rem;color:var(--clr-muted);}
+.feat-divider{width:1px;height:16px;background:var(--clr-border);}
+.feat-read-time{font-size:.76rem;color:var(--clr-muted);}
+.feat-link{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--clr-accent2);transition:gap .28s;}
+.featured-card:hover .feat-link{gap:12px;}
+
+/* ── BLOG GRID ─────────────────────────── */
+.blog-main{background:#111;padding-top:32px !important;}
+.blog-layout{display:grid;grid-template-columns:1fr 340px;gap:48px;align-items:start;}
+
+/* Post cards */
+.posts-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.post-card{background:var(--clr-card);border-radius:20px;overflow:hidden;border:1px solid var(--clr-border);transition:transform .32s var(--ease),box-shadow .32s var(--ease),border-color .32s;}
+.post-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:rgba(192,57,43,.2);}
+.post-img{height:200px;position:relative;overflow:hidden;background:linear-gradient(135deg,#1a0808,#141414);}
+.post-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
+.post-card:hover .post-img img{transform:scale(1.06);}
+.post-img-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.8rem;color:rgba(192,57,43,.15);z-index:0;}
+.post-img img{position:relative;z-index:1;}
+.post-tag{position:absolute;top:12px;left:12px;z-index:2;padding:3px 11px;border-radius:50px;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
+.tag-rera{background:#c0392b;}
+.tag-finance{background:#00b894;}
+.tag-market{background:#6c5ce7;}
+.tag-tech{background:#0ea5e9;}
+.tag-legal{background:#f59e0b;}
+.tag-tips{background:#e74c3c;}
+.post-body{padding:20px 20px 22px;}
+.post-meta{display:flex;gap:12px;margin-bottom:10px;font-size:.7rem;color:var(--clr-muted);}
+.post-meta i{color:var(--clr-accent2);}
+.post-title{font-family:var(--font-head);font-size:1rem;font-weight:700;color:#fff;line-height:1.38;margin-bottom:10px;}
+.post-excerpt{font-size:.82rem;color:var(--clr-muted);line-height:1.68;margin-bottom:16px;}
+.post-footer{display:flex;align-items:center;justify-content:space-between;}
+.post-author{display:flex;align-items:center;gap:8px;}
+.post-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0;}
+.post-author-name{font-size:.75rem;color:var(--clr-muted);}
+.post-read{font-size:.76rem;font-weight:600;color:var(--clr-accent2);display:flex;align-items:center;gap:5px;transition:gap .28s;}
+.post-card:hover .post-read{gap:8px;}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:48px;}
+.pg-btn{width:38px;height:38px;border-radius:8px;border:1.5px solid var(--clr-border);background:transparent;color:var(--clr-muted);font-size:.85rem;font-family:var(--font-body);cursor:pointer;transition:all .28s;display:flex;align-items:center;justify-content:center;}
+.pg-btn:hover{border-color:var(--clr-accent);color:var(--clr-accent2);}
+.pg-btn.active{background:var(--clr-accent);border-color:var(--clr-accent);color:#fff;}
+
+/* ── SIDEBAR ───────────────────────────── */
+.sidebar{display:flex;flex-direction:column;gap:28px;position:sticky;top:calc(var(--nav-h) + 68px);}
+.sidebar-card{background:var(--clr-card);border-radius:18px;padding:24px;border:1px solid var(--clr-border);}
+.sidebar-title{font-family:var(--font-head);font-size:.95rem;font-weight:700;color:#fff;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--clr-border);}
+.popular-list{display:flex;flex-direction:column;gap:16px;}
+.popular-item{display:flex;gap:12px;align-items:flex-start;}
+.popular-num{font-family:var(--font-head);font-size:1.4rem;font-weight:700;color:rgba(192,57,43,.25);line-height:1;flex-shrink:0;width:24px;}
+.popular-title{font-size:.82rem;font-weight:600;color:rgba(255,255,255,.8);line-height:1.4;margin-bottom:4px;cursor:pointer;transition:color .28s;}
+.popular-title:hover{color:var(--clr-accent2);}
+.popular-date{font-size:.7rem;color:var(--clr-muted);}
+.tags-cloud{display:flex;flex-wrap:wrap;gap:8px;}
+.tag-pill{padding:5px 14px;border-radius:50px;border:1.5px solid var(--clr-border);font-size:.73rem;font-weight:600;color:var(--clr-muted);cursor:pointer;transition:all .28s;}
+.tag-pill:hover{border-color:var(--clr-accent);color:var(--clr-accent2);}
+
+/* Newsletter sidebar */
+.nl-input-wrap{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+.nl-input{padding:10px 14px;background:#111;border:1.5px solid var(--clr-border);border-radius:8px;color:#fff;font-size:.82rem;font-family:var(--font-body);outline:none;transition:border-color .28s;}
+.nl-input::placeholder{color:var(--clr-muted);}
+.nl-input:focus{border-color:var(--clr-accent2);}
+.nl-input.nl-error-border{border-color:#ff6b6b;}
+.nl-btn{padding:11px;background:var(--clr-accent);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:600;font-family:var(--font-body);cursor:pointer;transition:background .28s,transform .28s;}
+.nl-btn:hover{background:var(--clr-accent2);transform:translateY(-1px);}
+.nl-note{font-size:.7rem;color:var(--clr-muted);margin-top:4px;}
+.nl-err-msg{font-size:.71rem;color:#ff9999;min-height:14px;display:block;opacity:0;transition:opacity .2s;}
+
+/* ── NEWSLETTER BANNER ─────────────────── */
+.nl-banner{background:linear-gradient(135deg,var(--clr-accent),#7a0000 55%,#4a0000);border-radius:24px;padding:52px 48px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;}
+.nl-banner h3{font-family:var(--font-head);font-size:clamp(1.5rem,2.5vw,2rem);color:#fff;margin-bottom:8px;}
+.nl-banner p{color:rgba(255,255,255,.65);font-size:.9rem;line-height:1.7;}
+.nl-form{display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+.nl-form-row{display:flex;gap:10px;}
+.nl-form input{padding:12px 18px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);border-radius:8px;color:#fff;font-size:.88rem;font-family:var(--font-body);outline:none;width:260px;transition:border-color .28s,background .28s;}
+.nl-form input::placeholder{color:rgba(255,255,255,.45);}
+.nl-form input:focus{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.16);}
+.nl-form input.nl-error-border{border-color:#ff6b6b;}
+.nl-form button{padding:12px 26px;background:#fff;color:var(--clr-accent);border:none;border-radius:8px;font-size:.85rem;font-weight:700;font-family:var(--font-body);cursor:pointer;white-space:nowrap;transition:transform .28s,box-shadow .28s;}
+.nl-form button:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3);}
+.nl-banner-err{font-size:.72rem;color:#ff9999;min-height:16px;display:block;opacity:0;transition:opacity .2s;}
+
+/* shake animation */
+@keyframes nlShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+/* No results */
+.no-results{grid-column:1/-1;text-align:center;padding:60px 20px;}
+.no-results i{font-size:3rem;color:rgba(192,57,43,.2);margin-bottom:16px;display:block;}
+.no-results p{color:var(--clr-muted);font-size:.9rem;}
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media(max-width:1100px){
+  .blog-layout{grid-template-columns:1fr;}
+  .sidebar{position:static;flex-direction:row;flex-wrap:wrap;}
+  .sidebar-card{flex:1 1 280px;}
+  .nl-banner{grid-template-columns:1fr;gap:24px;}
+  .nl-form-row{flex-direction:column;}
+  .nl-form input{width:100%;}
+}
+@media(max-width:900px){
+  .featured-card{grid-template-columns:1fr;}
+  .featured-img{min-height:260px;}
+  .featured-body{padding:32px 28px;}
+}
+@media(max-width:700px){
+  .posts-grid{grid-template-columns:1fr;}
+  .filter-inner{flex-direction:column;align-items:flex-start;gap:12px;}
+  .search-input{width:100%;}
+  .search-wrap{width:100%;}
+  .search-input:focus{width:100%;}
+  .nl-banner{padding:36px 24px;}
+}
+@media(max-width:480px){
+  .sidebar{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="s-header always-solid" id="sHeader">
+  <div class="s-nav-inner">
+    <a href="index.html" class="s-logo">
+      <div class="s-logo-mark"><img src="./assets/stackly logo.webp" alt=""></div>
+      <div class="s-logo-text">STACK<em>LY</em></div>
+    </a>
+    <nav class="s-nav">
+      <a href="index.html" class="s-nav-link">Home</a>
+      <a href="about.html" class="s-nav-link">About</a>
+      <a href="services.html" class="s-nav-link">Services</a>
+      <a href="properties.html" class="s-nav-link">Properties</a>
+      <a href="blog.html" class="s-nav-link active">Blog</a>
+      <a href="contact.html" class="s-nav-link">Contact</a>
+    </nav>
+    <div class="s-header-right">
+      <a href="login.html" class="s-btn-login">Login</a>
+      <button class="s-hamburger" id="sHam" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="s-mobile-menu" id="sMob">
+  <a href="index.html" class="s-nav-link">Home</a>
+  <a href="about.html" class="s-nav-link">About</a>
+  <a href="services.html" class="s-nav-link">Services</a>
+  <a href="properties.html" class="s-nav-link">Properties</a>
+  <a href="blog.html" class="s-nav-link active">Blog</a>
+  <a href="contact.html" class="s-nav-link">Contact</a>
+  <a href="login.html" class="s-btn-login">Login</a>
+</div>
+
+<!-- HERO -->
+<section class="pg-hero">
+  <div class="pg-hero-img"><img src="./assets/business.webp" alt="Blog"></div>
+  <div style="position:absolute;inset:0;background:rgba(5,5,5,.82);z-index:0;"></div>
+  <div class="s-container pg-hero-inner">
+    <div class="s-eyebrow" style="justify-content:center">Insights & Resources</div>
+    <h1>Stackly <em>Blog</em></h1>
+    <p>Expert guides on property management, RERA compliance, rental analytics, and the Indian real estate market.</p>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fa-solid fa-chevron-right" style="font-size:.55rem"></i>
+      <span>Blog</span>
+    </nav>
+  </div>
+</section>
+
+<!-- FEATURED POST -->
+<section class="featured-wrap s-section" style="padding-bottom:0">
+  <div class="s-container">
+    <div class="s-eyebrow">Featured Article</div>
+    <div class="featured-card reveal">
+      <div class="featured-img">
+        <img src="./assets/graphs.webp" alt="RERA 2026" onerror="this.remove()">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a0808,#141414);z-index:-1;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-gavel" style="font-size:4rem;color:rgba(192,57,43,.15)"></i></div>
+        <div class="featured-badge">Featured</div>
+      </div>
+      <div class="featured-body">
+        <div class="feat-cat">RERA &nbsp;·&nbsp; Compliance</div>
+        <div class="feat-title">Complete RERA Compliance Guide for Property Managers in 2026</div>
+        <div class="feat-excerpt">New amendments to RERA affect how you register projects, display pricing and handle refunds. India's property management landscape is shifting — here's everything you need to know to stay compliant and avoid penalties this year.</div>
+        <div class="feat-meta">
+          <div class="feat-author">
+            <div class="feat-avatar-fallback">RK</div>
+            <div>
+              <div class="feat-author-name">Rajesh Kumar</div>
+              <div class="feat-date">10 Jun 2026</div>
+            </div>
+          </div>
+          <div class="feat-divider"></div>
+          <div class="feat-read-time"><i class="fa-regular fa-clock" style="color:var(--clr-accent2);margin-right:4px"></i>5 min read</div>
+        </div>
+        <a href="404page.html" class="feat-link" onclick="pmsNav(event)">Read Full Article <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="s-container filter-inner">
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-cat="all">All Posts</button>
+      <button class="filter-tab" data-cat="rera">RERA</button>
+      <button class="filter-tab" data-cat="finance">Finance</button>
+      <button class="filter-tab" data-cat="market">Market</button>
+      <button class="filter-tab" data-cat="tech">Technology</button>
+      <button class="filter-tab" data-cat="legal">Legal</button>
+      <button class="filter-tab" data-cat="tips">Tips</button>
+    </div>
+    <div class="search-wrap">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search articles…">
+    </div>
+  </div>
+</div>
+
+<!-- BLOG GRID + SIDEBAR -->
+<section class="blog-main s-section" style="padding-top:32px;">
+  <div class="s-container">
+    <div class="blog-layout">
+
+      <!-- Posts -->
+      <div>
+        <div class="posts-grid" id="postsGrid">
+
+          <div class="post-card reveal" data-cat="finance">
+            <div class="post-img">
+              <div class="post-img-fallback"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+              <img src="./assets/investment.webp" alt="" onerror="this.remove()">
+              <span class="post-tag tag-finance">Finance</span>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span><i class="fa-regular fa-calendar"></i> 3 Jun 2026</span><span><i class="fa-regular fa-clock"></i> 4 min</span></div>
+              <div class="post-title">How to Improve Rent Collection Rate to 98% with Automation</div>
+              <div class="post-excerpt">Manual reminders fail. Smart automation with UPI and auto-debit dramatically increases on-time payment rates.</div>
+              <div class="post-footer">
+                <div class="post-author"><div class="post-av" style="background:linear-gradient(135deg,#10b981,#065f46)">SP</div><div class="post-author-name">Sunita Patel</div></div>
+                <a href="404page.html" class="post-read" onclick="pmsNav(event)">Read <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="post-card reveal" style="transition-delay:.06s" data-cat="market">
+            <div class="post-img">
+              <div class="post-img-fallback"><i class="fa-solid fa-city"></i></div>
+              <img src="./assets/blog1.webp" alt="" onerror="this.remove()">
+              <span class="post-tag tag-market">Market</span>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span><i class="fa-regular fa-calendar"></i> 28 May 2026</span><span><i class="fa-regular fa-clock"></i> 6 min</span></div>
+              <div class="post-title">Chennai Real Estate 2026: Where to Invest & What to Expect</div>
+              <div class="post-excerpt">OMR, ECR and Sholinganallur are outperforming other micro-markets. Our data team breaks down the numbers.</div>
+              <div class="post-footer">
+                <div class="post-author"><div class="post-av" style="background:linear-gradient(135deg,#0ea5e9,#0369a1)">DV</div><div class="post-author-name">Deepa Venkat</div></div>
+                <a href="404page.html" class="post-read" onclick="pmsNav(event)">Read <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="post-card reveal" style="transition-delay:.12s" data-cat="tech">
+            <div class="post-img">
+              <div class="post-img-fallback"><i class="fa-solid fa-brain"></i></div>
+              <img src="./assets/analytics.webp" alt="" onerror="this.remove()">
+              <span class="post-tag tag-tech">Technology</span>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span><i class="fa-regular fa-calendar"></i> 20 May 2026</span><span><i class="fa-regular fa-clock"></i> 5 min</span></div>
+              <div class="post-title">How AI Revenue Forecasting Is Changing Property Management</div>
+              <div class="post-excerpt">Stackly's new AI engine predicts vacancy risk 60 days out with 89% accuracy. Here's how it works.</div>
+              <div class="post-footer">
+                <div class="post-author"><div class="post-av" style="background:linear-gradient(135deg,#10b981,#065f46)">SP</div><div class="post-author-name">Sunita Patel</div></div>
+                <a href="404page.html" class="post-read" onclick="pmsNav(event)">Read <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="post-card reveal" style="transition-delay:.18s" data-cat="legal">
+            <div class="post-img">
+              <div class="post-img-fallback"><i class="fa-solid fa-file-contract"></i></div>
+              <img src="./assets/leace.webp" alt="" onerror="this.remove()">
+              <span class="post-tag tag-legal">Legal</span>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span><i class="fa-regular fa-calendar"></i> 14 May 2026</span><span><i class="fa-regular fa-clock"></i> 7 min</span></div>
+              <div class="post-title">Digital Lease Agreements: Legal Validity & Best Practices in India</div>
+              <div class="post-excerpt">Are e-signed leases enforceable in India? A plain-language breakdown of the IT Act and what managers need to know.</div>
+              <div class="post-footer">
+                <div class="post-author"><div class="post-av" style="background:linear-gradient(135deg,var(--clr-accent),#8b0000)">RK</div><div class="post-author-name">Rajesh Kumar</div></div>
+                <a href="404page.html" class="post-read" onclick="pmsNav(event)">Read <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="post-card reveal" style="transition-delay:.24s" data-cat="tips">
+            <div class="post-img">
+              <div class="post-img-fallback"><i class="fa-solid fa-wrench"></i></div>
+              <img src="./assets/maintance.webp" alt="" onerror="this.remove()">
+              <span class="post-tag tag-tips">Tips</span>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span><i class="fa-regular fa-calendar"></i> 7 May 2026</span><span><i class="fa-regular fa-clock"></i> 4 min</span></div>
+              <div class="post-title">Proactive Maintenance That Cuts Tenant Complaints by 40%</div>
+              <div class="post-excerpt">Reactive fixes cost 3× more than scheduled ones. A practical checklist to move from firefighting to prevention.</div>
+              <div class="post-footer">
+                <div class="post-author"><div class="post-av" style="background:linear-gradient(135deg,#6c5ce7,#4c1d95)">AM</div><div class="post-author-name">Arjun Mehta</div></div>
+                <a href="404page.html" class="post-read" onclick="pmsNav(event)">Read <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="post-card reveal" style="transition-delay:.30s" data-cat="market">
+            <div class="post-img">
+              <div class="post-img-fallback"><i class="fa-solid fa-chart-line"></i></div>
+              <img src="./assets/commercial.webp" alt="" onerror="this.remove()">
+              <span class="post-tag tag-market">Market</span>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span><i class="fa-regular fa-calendar"></i> 29 Apr 2026</span><span><i class="fa-regular fa-clock"></i> 5 min</span></div>
+              <div class="post-title">Commercial vs Residential: Which Yields Better Returns in 2026?</div>
+              <div class="post-excerpt">Office parks in Bangalore and Hyderabad show 7.2% gross yields vs 3.8% for residential. A deep-dive comparison.</div>
+              <div class="post-footer">
+                <div class="post-author"><div class="post-av" style="background:linear-gradient(135deg,#0ea5e9,#0369a1)">DV</div><div class="post-author-name">Deepa Venkat</div></div>
+                <a href="404page.html" class="post-read" onclick="pmsNav(event)">Read <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="post-card reveal" style="transition-delay:.36s" data-cat="finance">
+            <div class="post-img">
+              <div class="post-img-fallback"><i class="fa-solid fa-percent"></i></div>
+              <img src="./assets/shake.webp" alt="" onerror="this.remove()">
+              <span class="post-tag tag-finance">Finance</span>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span><i class="fa-regular fa-calendar"></i> 21 Apr 2026</span><span><i class="fa-regular fa-clock"></i> 3 min</span></div>
+              <div class="post-title">TDS on Rent: What Property Managers Must Deduct in FY 2026-27</div>
+              <div class="post-excerpt">Section 194-I confusion explained. When TDS applies, how to calculate it, and how to file Form 26QC.</div>
+              <div class="post-footer">
+                <div class="post-author"><div class="post-av" style="background:linear-gradient(135deg,var(--clr-accent),#8b0000)">RK</div><div class="post-author-name">Rajesh Kumar</div></div>
+                <a href="404page.html" class="post-read" onclick="pmsNav(event)">Read <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="post-card reveal" style="transition-delay:.42s" data-cat="tech">
+            <div class="post-img">
+              <div class="post-img-fallback"><i class="fa-solid fa-mobile-screen"></i></div>
+              <img src="./assets/dashboard.webp" alt="" onerror="this.remove()">
+              <span class="post-tag tag-tech">Technology</span>
+            </div>
+            <div class="post-body">
+              <div class="post-meta"><span><i class="fa-regular fa-calendar"></i> 12 Apr 2026</span><span><i class="fa-regular fa-clock"></i> 4 min</span></div>
+              <div class="post-title">Why Your Property Dashboard Should Live on Your Phone</div>
+              <div class="post-excerpt">Mobile-first property managers respond to maintenance tickets 5× faster and collect rent 2 days sooner on average.</div>
+              <div class="post-footer">
+                <div class="post-author"><div class="post-av" style="background:linear-gradient(135deg,#6c5ce7,#4c1d95)">AM</div><div class="post-author-name">Arjun Mehta</div></div>
+                <a href="404page.html" class="post-read" onclick="pmsNav(event)">Read <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="no-results" id="noResults" style="display:none">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <p>No articles match your search. Try a different keyword or category.</p>
+          </div>
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+          <button class="pg-btn" id="pgPrev"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="pg-btn active" data-page="1">1</button>
+          <button class="pg-btn" data-page="2">2</button>
+          <button class="pg-btn" data-page="3">3</button>
+          <button class="pg-btn" id="pgNext"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+
+        <div class="sidebar-card">
+          <div class="sidebar-title">Popular Posts</div>
+          <div class="popular-list">
+            <div class="popular-item">
+              <div class="popular-num">01</div>
+              <div><div class="popular-title">Complete RERA Compliance Guide 2026</div><div class="popular-date">10 Jun 2026 &nbsp;·&nbsp; 5 min read</div></div>
+            </div>
+            <div class="popular-item">
+              <div class="popular-num">02</div>
+              <div><div class="popular-title">Digital Lease Agreements: Legal Validity in India</div><div class="popular-date">14 May 2026 &nbsp;·&nbsp; 7 min read</div></div>
+            </div>
+            <div class="popular-item">
+              <div class="popular-num">03</div>
+              <div><div class="popular-title">Chennai Real Estate 2026 Investment Guide</div><div class="popular-date">28 May 2026 &nbsp;·&nbsp; 6 min read</div></div>
+            </div>
+            <div class="popular-item">
+              <div class="popular-num">04</div>
+              <div><div class="popular-title">Commercial vs Residential Returns in 2026</div><div class="popular-date">29 Apr 2026 &nbsp;·&nbsp; 5 min read</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-title">Weekly Newsletter</div>
+          <p style="font-size:.82rem;color:var(--clr-muted);line-height:1.65;margin-bottom:14px">Get the latest property market insights, RERA updates, and management tips — every Tuesday.</p>
+          <div class="nl-input-wrap">
+            <input type="email" class="nl-input" id="nlSideEmail" placeholder="your@email.com">
+            <span class="nl-err-msg" id="nlSideErr"></span>
+            <button type="button" class="nl-btn" onclick="nlSideSubmit()">Subscribe Free</button>
+          </div>
+          <p class="nl-note">No spam. Unsubscribe any time.</p>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-title">About Stackly Blog</div>
+          <p style="font-size:.82rem;color:var(--clr-muted);line-height:1.65;margin-bottom:16px">Written by our in-house team of property professionals, lawyers, and data analysts. Practical advice for Indian property managers.</p>
+          <a href="./404page.html" class="s-btn s-btn-outline" style="font-size:.78rem;padding:9px 18px">Meet the Team <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+      </aside>
+    </div>
+
+    <!-- Newsletter Banner -->
+    <div class="nl-banner reveal" style="margin-top:72px">
+      <div>
+        <h3>Stay Ahead of the Market</h3>
+        <p>Join 8,000+ property professionals who read the Stackly newsletter every week. Market reports, RERA updates, and platform tips.</p>
+      </div>
+      <div class="nl-form">
+        <div class="nl-form-row">
+          <input type="email" id="nlBannerEmail" placeholder="Enter your email address">
+          <button type="button" onclick="nlBannerSubmit()">Subscribe Free</button>
+        </div>
+        <span class="nl-banner-err" id="nlBannerErr"></span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="s-footer">
+  <div class="s-footer-inner">
+    <div class="s-footer-grid">
+      <div class="s-footer-brand">
+        <a href="./index.html"><div class="s-footer-logo"><div class="s-logo-mark"><img src="./assets/stackly logo.webp" alt=""></div><div class="s-logo-text">STACK<em>LY</em></div></div></a>
+        <p>The premium property management platform for modern real estate professionals across India. RERA registered. Bank-grade secure.</p>
+        <div class="s-footer-socials">
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-facebook-f"></i></a>
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-instagram"></i></a>
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-linkedin-in"></i></a>
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-twitter"></i></a>
+          <a href="404page.html" class="s-social" onclick="pmsNav(event)"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="s-footer-col"><h5>Platform</h5><div class="s-footer-links">
+        <a href="index.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Home</a>
+        <a href="about.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> About Us</a>
+        <a href="services.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Services</a>
+        <a href="properties.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Properties</a>
+        <a href="contact.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Contact</a>
+        <a href="blog.html" class="s-footer-link"><i class="fa-solid fa-chevron-right"></i> Blog</a>
+      </div></div>
+      <div class="s-footer-col"><h5>Features</h5><div class="s-footer-links">
+        <a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Smart Dashboard</a>
+        <a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Tenant Portal</a>
+        <a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Revenue Analytics</a>
+        <a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Maintenance Hub</a>
+        <a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Digital Leasing</a>
+        <a href="404page.html" class="s-footer-link" onclick="pmsNav(event)"><i class="fa-solid fa-chevron-right"></i> Compliance Guard</a>
+      </div></div>
+      <div class="s-footer-col"><h5>Contact</h5><div class="s-footer-contact">
+        <div class="s-footer-ci"><i class="fa-solid fa-location-dot"></i><span>MMR Complex, Salem, Tamil Nadu — 636008</span></div>
+        <div class="s-footer-ci"><i class="fa-solid fa-phone"></i><span>+91 44 4567 8901</span></div>
+        <div class="s-footer-ci"><i class="fa-solid fa-envelope"></i><a href="mailto:hello@stackly.in">hello@stackly.in</a></div>
+        <div class="s-footer-ci"><i class="fa-solid fa-clock"></i><span>Mon–Sat: 9 AM – 7 PM IST</span></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="s-footer-inner">
+    <div class="s-footer-bottom">
+      <span>© 2026 Stackly Property Management. All rights reserved. RERA No. TN/01/2018</span>
+      <div class="s-footer-bottom-links">
+        <a href="404page.html" onclick="pmsNav(event)">Privacy Policy</a>
+        <a href="404page.html" onclick="pmsNav(event)">Terms of Use</a>
+        <a href="404page.html" onclick="pmsNav(event)">RERA</a>
+        <a href="404page.html" onclick="pmsNav(event)">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button class="s-btt" id="sBtt"><i class="fa-solid fa-arrow-up"></i></button>
+<a href="./404page.html" class="s-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<script>
+'use strict';
+
+function pmsNav(e){
+  if(e&&e.preventDefault)e.preventDefault();
+  sessionStorage.setItem('pms_ref', window.location.href);
+  sessionStorage.setItem('pms_scroll', window.scrollY);
+  window.location.href='404page.html';
+}
+document.addEventListener('click',function(ev){
+  var l=ev.target.closest('a[href]');
+  if(l&&l.href&&l.href.indexOf('404page')!==-1){
+    sessionStorage.setItem('pms_ref', window.location.href);
+    sessionStorage.setItem('pms_scroll', window.scrollY);
+  }
+});
+
+(function(){
+  var sc=sessionStorage.getItem('pms_scroll_restore');
+  if(sc!==null){
+    sessionStorage.removeItem('pms_scroll_restore');
+    window.addEventListener('load',function(){
+      window.scrollTo({top:parseInt(sc,10),behavior:'instant'});
+    },{once:true});
+  }
+})();
+
+/* Mobile menu */
+var ham=document.getElementById('sHam'),mob=document.getElementById('sMob');
+ham.addEventListener('click',function(){
+  ham.classList.toggle('open');mob.classList.toggle('open');
+  document.body.style.overflow=mob.classList.contains('open')?'hidden':'';
+});
+mob.querySelectorAll('a').forEach(function(a){
+  a.addEventListener('click',function(){ham.classList.remove('open');mob.classList.remove('open');document.body.style.overflow='';});
+});
+
+/* Back-to-top */
+var btt=document.getElementById('sBtt');
+window.addEventListener('scroll',function(){btt.classList.toggle('show',window.scrollY>400);},{passive:true});
+btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+
+/* Scroll reveal */
+var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('in');});},{threshold:0,rootMargin:"0px 0px -40px 0px"});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(function(el){io.observe(el);});
+setTimeout(function(){document.querySelectorAll('.reveal,.reveal-l,.reveal-r:not(.in)').forEach(function(el){el.classList.add('in');});},400);
+
+/* Filter + Search */
+var allCards=Array.from(document.querySelectorAll('#postsGrid .post-card'));
+var noResults=document.getElementById('noResults');
+var activecat='all';
+var searchVal='';
+
+function filterPosts(){
+  var anyVisible=false;
+  allCards.forEach(function(card){
+    var cat=card.dataset.cat||'';
+    var text=card.innerText.toLowerCase();
+    var catMatch=activecat==='all'||cat===activecat;
+    var searchMatch=!searchVal||text.indexOf(searchVal)!==-1;
+    var show=catMatch&&searchMatch;
+    card.style.display=show?'':'none';
+    if(show)anyVisible=true;
+  });
+  noResults.style.display=anyVisible?'none':'flex';
+}
+
+document.querySelectorAll('#filterTabs .filter-tab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('#filterTabs .filter-tab').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    activecat=btn.dataset.cat;
+    filterPosts();
+  });
+});
+
+var searchInput=document.getElementById('searchInput');
+if(searchInput){
+  searchInput.addEventListener('input',function(){
+    searchVal=searchInput.value.toLowerCase().trim();
+    filterPosts();
+  });
+}
+
+/* Pagination */
+var pgBtns=document.querySelectorAll('.pagination .pg-btn[data-page]');
+pgBtns.forEach(function(btn){
+  btn.addEventListener('click',function(){
+    pgBtns.forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    window.scrollTo({top:document.getElementById('postsGrid').offsetTop-120,behavior:'smooth'});
+  });
+});
+document.getElementById('pgPrev').addEventListener('click',function(){
+  var active=document.querySelector('.pagination .pg-btn.active[data-page]');
+  var prev=active&&active.previousElementSibling;
+  if(prev&&prev.dataset.page){prev.click();}
+});
+document.getElementById('pgNext').addEventListener('click',function(){
+  var active=document.querySelector('.pagination .pg-btn.active[data-page]');
+  var next=active&&active.nextElementSibling;
+  if(next&&next.dataset.page){next.click();}
+});
+
+/* Newsletter */
+function isValidEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());}
+function nlShakeInput(el){el.style.animation='none';el.offsetHeight;el.style.animation='nlShake .32s ease';setTimeout(function(){el.style.animation='';},350);}
+function nlShowErr(inp,errEl,msg){errEl.textContent=msg;errEl.style.opacity='1';inp.classList.add('nl-error-border');nlShakeInput(inp);inp.focus();}
+function nlClearErr(inp,errEl){errEl.style.opacity='0';inp.classList.remove('nl-error-border');}
+
+function nlBannerSubmit(){
+  var inp=document.getElementById('nlBannerEmail');
+  var err=document.getElementById('nlBannerErr');
+  var v=inp.value.trim();
+  if(!v){nlShowErr(inp,err,'Email is required.');return;}
+  if(!isValidEmail(v)){nlShowErr(inp,err,'Please enter a valid email address.');return;}
+  nlClearErr(inp,err);sessionStorage.setItem('nl_email',v);pmsNav(null);
+}
+
+function nlSideSubmit(){
+  var inp=document.getElementById('nlSideEmail');
+  var err=document.getElementById('nlSideErr');
+  var v=inp.value.trim();
+  if(!v){nlShowErr(inp,err,'Email is required.');return;}
+  if(!isValidEmail(v)){nlShowErr(inp,err,'Please enter a valid email address.');return;}
+  nlClearErr(inp,err);sessionStorage.setItem('nl_email',v);pmsNav(null);
+}
+
+[['nlBannerEmail','nlBannerErr',nlBannerSubmit],['nlSideEmail','nlSideErr',nlSideSubmit]].forEach(function(pair){
+  var inp=document.getElementById(pair[0]);
+  var err=document.getElementById(pair[1]);
+  var fn=pair[2];
+  if(!inp)return;
+  inp.addEventListener('input',function(){nlClearErr(inp,err);});
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')fn();});
+});
+</script>
+</body>
+</html>
